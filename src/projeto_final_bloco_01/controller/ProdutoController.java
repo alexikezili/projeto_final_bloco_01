@@ -64,6 +64,16 @@ public class ProdutoController implements ProdutoRepository{
 		
 	}
 	
+
+	@Override
+	public void gerirEstoque(int id, int estoque) {
+		Optional<Produto> produto = buscarNaCollection(id);
+//		produto.ifPresent(p -> p.setEstoque(estoque));
+		if (produto.isPresent()) {
+			produto.get().setEstoque(estoque);
+		}
+	}
+	
 	public int gerarId() {
 		return ++ id;
 	}

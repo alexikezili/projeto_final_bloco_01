@@ -9,4 +9,6 @@ public interface ProdutoRepository {
 	public void consultaPorId(int id);
 	public void atualizar(Produto produto);
 	public void deletar(int id);
+	
+	public void gerirEstoque(int id, int estoque);
 }
