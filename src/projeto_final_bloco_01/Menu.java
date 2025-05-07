@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import projeto_final_bloco_01.model.Carta;
+import projeto_final_bloco_01.model.Deck;
 import projeto_final_bloco_01.util.Cores;
 
 public class Menu {
@@ -11,8 +13,16 @@ public class Menu {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 
-		int opcao = 0;
-
+		int opcao, id, tipo, estoque, jogo, conservacao, nivel;
+		String nome;
+		float valor;
+		
+		Carta c1 = new Carta(1, 3, 1, "Charizard", 30, 1, 2);
+		c1.visualizar();
+		
+		Deck d1 = new Deck(2, 8, 2, "Deck Kaiba", 60, 2, 2);
+		d1.visualizar();
+		
 		while (true) {
 
 			System.out.println(Cores.TEXT_GREEN + Cores.ANSI_BLACK_BACKGROUND
