@@ -2,26 +2,32 @@ package projeto_final_bloco_01;
 
 import java.io.IOException;
 import java.util.InputMismatchException;
+import java.util.Optional;
 import java.util.Scanner;
 
+import projeto_final_bloco_01.controller.ProdutoController;
 import projeto_final_bloco_01.model.Carta;
 import projeto_final_bloco_01.model.Deck;
+import projeto_final_bloco_01.model.Produto;
 import projeto_final_bloco_01.util.Cores;
 
 public class Menu {
 
 	public static void main(String[] args) {
+		
 		Scanner sc = new Scanner(System.in);
 
+		ProdutoController produtos = new ProdutoController();
+		
 		int opcao, id, tipo, estoque, jogo, conservacao, nivel;
 		String nome;
 		float valor;
 		
-		Carta c1 = new Carta(1, 3, 1, "Charizard", 30, 1, 2);
-		c1.visualizar();
+		Carta c1 = new Carta(produtos.gerarId(), 3, 1, "Charizard", 30, 1, 2);
+		produtos.criarProduto(c1);
 		
-		Deck d1 = new Deck(2, 8, 2, "Deck Kaiba", 60, 2, 2);
-		d1.visualizar();
+		Deck d1 = new Deck(produtos.gerarId(), 8, 2, "Deck Kaiba", 60, 2, 2);
+		produtos.criarProduto(d1);
 		
 		while (true) {
 
@@ -45,6 +51,7 @@ public class Menu {
 
 			try {
 				opcao = sc.nextInt();
+				sc.nextLine();
 			} catch (InputMismatchException e) {
 				System.out.println("\nDigite valores inteiros!");
 				sc.nextLine();
@@ -69,26 +76,98 @@ public class Menu {
 			switch (opcao) {
 				case 1:
 					System.out.println(Cores.TEXT_WHITE + "Criar Produto\n\n");
+					
+					System.out.println("Digite o nome do produto: ");
+					nome = sc.nextLine();
+					
+					System.out.println("Digite o tipo do produto (1 - CARTA | 2 - DECK) ");
+					tipo = sc.nextInt();
+					
+					System.out.println("Digite o jogo do produto (1 - POKEMON | 2 - YUGIOH | 3 - MAGIC | 4 - OUTROS) ");
+					jogo = sc.nextInt();
+					
+					System.out.println("Digite a quantidade do estoque: ");
+					estoque = sc.nextInt();
+					
+					System.out.println("Digite o valor do produto: ");
+					valor = sc.nextFloat();
+					
+					switch (tipo) {
+					case 1 -> {
+						System.out.println("Informe o estado de conservação da Carta (1 - M | 2 - NM | 3 - SP | 4 - MP | 5 - HP | 6 - D) ");
+						conservacao = sc.nextInt();
+						produtos.criarProduto(new Carta(produtos.gerarId(), estoque, tipo, nome, valor, jogo, conservacao));
+					}
+					case 2 -> {
+						System.out.println("Digite o nivel do DecK (1 - INICIANTE | 2 - INTERMEDIÁRIO | 3 - AVANÇADO) ");
+						nivel = sc.nextInt();
+						produtos.criarProduto(new Deck(produtos.gerarId(), estoque, tipo, nome, valor, jogo, nivel));
+					}
+					}
 				
 					keyPress();
 					break;
 				case 2:
-					System.out.println(Cores.TEXT_WHITE + "Listar todas os Produtos\n\n");
-
+					System.out.println(Cores.TEXT_WHITE + "Listar todas os Produtos\n");
+					produtos.listarTodos();
 					keyPress();
 					break;
 				case 3:
 					System.out.println(Cores.TEXT_WHITE + "Consultar dados do Produto por ID\n\n");
+					System.out.println("Digite o ID do produto");
+					id = sc.nextInt();
+					
+					produtos.consultaPorId(id);
 
 					keyPress();
 					break;
 				case 4:
 					System.out.println(Cores.TEXT_WHITE + "Atualizar dados do Produton\n");
+					System.out.println("Digite o ID do produto");
+					id = sc.nextInt();
+					sc.nextLine();
+					
+					Optional<Produto> produto = produtos.buscarNaCollection(id);
+					
+					if (produto.isPresent()) {
+						System.out.println("Digite o novo nome do Produto: ");
+						nome = sc.nextLine();
+						
+						System.out.println("Digite o novo tipo do produto (1 - CARTA | 2 - DECK) ");
+						tipo = sc.nextInt();
+						
+						System.out.println("Digite o jogo do produto (1 - POKEMON | 2 - YUGIOH | 3 - MAGIC | 4 - OUTROS) ");
+						jogo = sc.nextInt();
+						
+						System.out.println("Digite a quantidade do estoque: ");
+						estoque = sc.nextInt();
+						
+						System.out.println("Digite o novo valor do Produto");
+						valor = sc.nextFloat();
+						
+						switch (tipo) {
+						case 1 -> {
+							System.out.println("Informe o estado de conservação da Carta (1 - M | 2 - NM | 3 - SP | 4 - MP | 5 - HP | 6 - D ");
+							conservacao = sc.nextInt();
+							produtos.atualizar(new Carta(id, estoque, tipo, nome, valor, jogo, conservacao));
+						}
+						case 2 -> {
+							System.out.println("Digite o nivel do DecK (1 - INICIANTE | 2 - INTERMEDIÁRIO | 3 - AVANÇADO ");
+							nivel = sc.nextInt();
+							produtos.atualizar(new Deck(id, estoque, tipo, nome, valor, jogo, nivel));
+						}
+						}
+					} else
+						System.out.printf("\nProduto ID %d não existe", id);
 
 					keyPress();
 					break;
 				case 5:
 					System.out.println(Cores.TEXT_WHITE + "Apagar Produto\n\n");
+					System.out.println("Digite o ID do produto: ");
+					id = sc.nextInt();
+					
+					produtos.deletar(id);
 
 					keyPress();
 					break;

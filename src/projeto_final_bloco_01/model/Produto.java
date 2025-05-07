@@ -84,7 +84,7 @@ public abstract class Produto {
 		default -> jogo = "Inválido";
 		}
 		
-		System.out.println("***************************************");
+		System.out.println("\n***************************************");
 		System.out.println("DADOS DO PRODUTO                       ");
 		System.out.println("***************************************");
 		System.out.println("ID do Produto: " + this.id);
