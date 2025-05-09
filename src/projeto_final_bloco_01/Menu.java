@@ -125,10 +125,10 @@ public class Menu {
 					keyPress();
 					break;
 				case 4:
-					System.out.println(Cores.TEXT_WHITE + "Atualizar dados do Produton\n");
+					System.out.println(Cores.TEXT_WHITE + "Atualizar dados do Produto\n");
 					System.out.println("Digite o ID do produto");
 					id = lerInt(sc);
-					sc.nextLine();
+					//sc.nextLine(); fix: era necessário um enter a mais para confirmar o id do produto
 					
 					Optional<Produto> produto = produtos.buscarNaCollection(id);
 					
